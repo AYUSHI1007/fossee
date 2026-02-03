@@ -102,19 +102,6 @@ Use **sample_equipment_data.csv** in the project root for testing. Columns: Equi
 | GET | `/api/history/` | List last 5 datasets |
 | GET | `/api/report/<id>/pdf/` | Download PDF report |
 
-## Version Control
 
-Use Git and push to GitHub for collaboration and submission. Initialize and push:
 
-```bash
-git init
-git add .
-git commit -m "Initial: Chemical Equipment Parameter Visualizer"
-git remote add origin <your-repo-url>
-git push -u origin main
-```
 
-## License
-
-MIT (or as required by your institution).
-"# fossee" 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
-from equipment_api import views  # import React view
+from equipment_api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),

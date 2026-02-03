@@ -1,33 +1,30 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound, FileResponse
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.conf import settings
+import os
 
 from .models import EquipmentDataset
 from .serializers import EquipmentDatasetSerializer
 from .services import parse_and_analyze
 from .pdf_report import build_pdf_report
-from django.http import FileResponse
-from django.conf import settings
-import os
+
 
 def index(request):
-    index_path = os.path.join(
-        settings.BASE_DIR.parent,
-        'frontend_web',
-        'build',
-        'index.html'
-    )
-    return FileResponse(open(index_path, 'rb'))
-
+    index_path = settings.BASE_DIR / 'frontend_web' / 'build' / 'index.html'
+    if not index_path.exists():
+        return HttpResponseNotFound(
+            "Frontend build not found. Run `npm run build` and commit the build folder."
+        )
+    return FileResponse(open(index_path, 'rb'), content_type='text/html')
 
 
 MAX_STORED_DATASETS = 5
 
 
 def trim_to_last_n(user=None):
-    """Keep only last MAX_STORED_DATASETS for this user (or global if no user)."""
     qs = EquipmentDataset.objects.all()
     if user and user.is_authenticated:
         qs = qs.filter(uploaded_by=user)

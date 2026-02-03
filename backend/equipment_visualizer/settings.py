@@ -4,7 +4,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-key-change-in-production')
-
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
@@ -33,12 +32,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'equipment_visualizer.urls'
+WSGI_APPLICATION = 'equipment_visualizer.wsgi.application'
 
-# templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'frontend' / 'build'],
+        'DIRS': [BASE_DIR / 'frontend_web' / 'build'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -51,20 +50,6 @@ TEMPLATES = [
     },
 ]
 
-
-STATIC_URL = '/static/'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'templates' / 'frontend' / 'static',
-]
-
-
-
-
-WSGI_APPLICATION = 'equipment_visualizer.wsgi.application'
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -72,26 +57,16 @@ DATABASES = {
     }
 }
 
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'frontend_web' / 'build' / 'static']
 
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
 
-
-
-
-# CORS for React frontend
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
-# REST Framework (Basic + Session auth; AllowAny for demo — restrict in production)
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -102,6 +77,4 @@ REST_FRAMEWORK = {
     ],
 }
 
-# Media files for uploaded CSVs (optional storage)
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
+FRONTEND_BUILD_STATIC = BASE_DIR / 'frontend_web' / 'build' / 'static'

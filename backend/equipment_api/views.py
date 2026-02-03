@@ -8,10 +8,18 @@ from .models import EquipmentDataset
 from .serializers import EquipmentDatasetSerializer
 from .services import parse_and_analyze
 from .pdf_report import build_pdf_report
-from django.shortcuts import render
+from django.http import FileResponse
+from django.conf import settings
+import os
 
 def index(request):
-    return render(request, 'frontend/build/index.html')
+    return FileResponse(
+        open(
+            os.path.join(settings.BASE_DIR, 'frontend_web', 'build', 'index.html'),
+            'rb'
+        )
+    )
+
 
 MAX_STORED_DATASETS = 5
 

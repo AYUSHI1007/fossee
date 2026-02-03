@@ -34,21 +34,28 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'equipment_visualizer.urls'
 
+# templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # point to backend/templates
+        'DIRS': [BASE_DIR / 'templates'],  # Django will look inside backend/templates
         'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
+        'OPTIONS': {'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+        ]},
     },
 ]
+
+# static files
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'templates' / 'frontend' / 'build' / 'static',  # React static folder
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # For collectstatic
+
 
 
 WSGI_APPLICATION = 'equipment_visualizer.wsgi.application'
@@ -72,11 +79,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATICFILES_DIRS = [
-    BASE_DIR / 'templates' / 'frontend' / 'static'  # React static files
-]
+
 
 
 # CORS for React frontend

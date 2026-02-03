@@ -1,6 +1,3 @@
-"""
-Django settings for Chemical Equipment Parameter Visualizer backend.
-"""
 import os
 from pathlib import Path
 
@@ -40,7 +37,7 @@ ROOT_URLCONF = 'equipment_visualizer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # point to backend/templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,6 +49,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'equipment_visualizer.wsgi.application'
 
@@ -76,6 +74,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_DIRS = [
+    BASE_DIR / 'templates' / 'frontend' / 'static'  # React static files
+]
+
 
 # CORS for React frontend
 CORS_ALLOW_ALL_ORIGINS = True

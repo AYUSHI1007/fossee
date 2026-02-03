@@ -1,6 +1,3 @@
-"""
-API views: CSV upload, summary, history (last 5), PDF report.
-"""
 from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -11,7 +8,10 @@ from .models import EquipmentDataset
 from .serializers import EquipmentDatasetSerializer
 from .services import parse_and_analyze
 from .pdf_report import build_pdf_report
+from django.shortcuts import render  # add this if not already imported
 
+def index(request):
+    return render(request, 'frontend/index.html')
 MAX_STORED_DATASETS = 5
 
 
@@ -58,7 +58,6 @@ class CSVUploadView(APIView):
 
 
 class SummaryView(APIView):
-    """Get summary for a dataset by id."""
 
     def get(self, request, dataset_id):
         try:
@@ -70,7 +69,6 @@ class SummaryView(APIView):
 
 
 class HistoryListView(APIView):
-    """List last 5 uploaded datasets."""
 
     def get(self, request):
         qs = EquipmentDataset.objects.all().order_by('-created_at')[:MAX_STORED_DATASETS]
@@ -79,7 +77,6 @@ class HistoryListView(APIView):
 
 
 class PDFReportView(APIView):
-    """Download PDF report for a dataset."""
 
     def get(self, request, dataset_id):
         try:

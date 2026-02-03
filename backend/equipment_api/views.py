@@ -13,12 +13,14 @@ from django.conf import settings
 import os
 
 def index(request):
-    return FileResponse(
-        open(
-            os.path.join(settings.BASE_DIR, 'frontend_web', 'build', 'index.html'),
-            'rb'
-        )
+    index_path = os.path.join(
+        settings.BASE_DIR.parent,
+        'frontend_web',
+        'build',
+        'index.html'
     )
+    return FileResponse(open(index_path, 'rb'))
+
 
 
 MAX_STORED_DATASETS = 5

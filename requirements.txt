@@ -3,3 +3,4 @@ djangorestframework>=3.13
 django-cors-headers>=4.0
 pandas>=1.5
 reportlab>=3.6
+gunicorn

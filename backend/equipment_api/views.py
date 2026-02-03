@@ -1,4 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, FileResponse
+from django.shortcuts import redirect
+import requests
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
@@ -13,6 +15,22 @@ from .pdf_report import build_pdf_report
 
 
 def index(request):
+    # During development, prefer the React dev server so `src` files are used.
+    # Proxy requests to the dev server so the app is available on the Django port.
+    if settings.DEBUG:
+        try:
+            dev_url = f'http://localhost:3000{request.get_full_path()}'
+            resp = requests.get(dev_url, timeout=1)
+            content_type = resp.headers.get('Content-Type', 'text/html')
+            return HttpResponse(resp.content, content_type=content_type, status=resp.status_code)
+        except Exception:
+            # Dev server not running or request failed — fall back to redirect so
+            # developer can still open the app directly if desired.
+            try:
+                return redirect('http://localhost:3000/')
+            except Exception:
+                pass
+
     index_path = settings.BASE_DIR / 'frontend_web' / 'build' / 'index.html'
     if not index_path.exists():
         return HttpResponseNotFound(

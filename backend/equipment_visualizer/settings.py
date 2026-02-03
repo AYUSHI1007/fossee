@@ -1,13 +1,15 @@
 import os
 from pathlib import Path
 
+# Base directory of the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Security settings
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-key-change-in-production')
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
-
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
+# Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,6 +22,7 @@ INSTALLED_APPS = [
     'equipment_api',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -31,9 +34,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# URL configuration and WSGI
 ROOT_URLCONF = 'equipment_visualizer.urls'
 WSGI_APPLICATION = 'equipment_visualizer.wsgi.application'
 
+# Templates (React build)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -50,6 +55,7 @@ TEMPLATES = [
     },
 ]
 
+# Database (SQLite)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -57,16 +63,22 @@ DATABASES = {
     }
 }
 
+# Static files (CSS, JS, etc.)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'frontend_web' / 'build' / 'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'frontend_web' / 'build' / 'static'
+]
 
+# Media files (uploads)
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
+# CORS settings for React frontend
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
+# Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -76,5 +88,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
 }
-
-FRONTEND_BUILD_STATIC = BASE_DIR / 'frontend_web' / 'build' / 'static'

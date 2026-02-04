@@ -1,5 +1,5 @@
 const API_BASE = process.env.REACT_APP_API_URL || 'https://fossee-webbasedapp-1.onrender.com/api';
-
+REACT_APP_API_URL = https://fossee-webbasedapp-1.onrender.com/api;
 export function getAuthHeaders() {
   const user = localStorage.getItem('api_user');
   const pass = localStorage.getItem('api_pass');
